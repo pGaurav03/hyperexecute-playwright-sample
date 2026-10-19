@@ -1,0 +1,38 @@
+version: "0.1"
+runson: win
+
+runtime:
+  language: node
+  version: 24
+
+autosplit: true
+concurrency: 2
+
+tunnel: false
+
+# Windows VMs run commands in PowerShell, so no `rm -rf` / `|| true` here
+# (the VM is fresh anyway, nothing to clean up).
+pre:
+  - npm ci
+
+testDiscovery:
+  mode: static
+  type: raw
+  command: ls tests
+
+testRunnerCommand: npx playwright test tests/$test
+
+post:
+  - 'echo "Post-step: Playwright run finished for $test"'
+  - dir reports\junit
+
+alwaysRunPostSteps: true
+
+report: true
+
+partialReports:
+  location: reports
+  type: html
+  frameworkName: allure
+
+jobLabel: ["HYP", "Playwright", "Windows", "Autosplit"]

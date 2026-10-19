@@ -1,0 +1,12 @@
+{
+  "name": "hyperexecute-playwright-sample",
+  "version": "1.0.0",
+  "description": "Playwright tests running on LambdaTest HyperExecute",
+  "scripts": {
+    "test": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.53.2",
+    "allure-playwright": "3.11.1"
+  }
+}

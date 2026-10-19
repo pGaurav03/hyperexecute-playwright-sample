@@ -1,0 +1,42 @@
+version: "0.1"
+runson: linux
+
+runtime:
+  language: node
+  version: 24
+
+autosplit: true
+concurrency: 2
+
+tunnel: false
+
+pre:
+  - rm -rf node_modules
+  - npm ci
+
+testDiscovery:
+  mode: static
+  type: raw
+  command: ls tests
+
+testRunnerCommand: npx playwright test tests/$test
+
+# runs after each task's test stage, on the same VM. alwaysRunPostSteps
+# makes this fire even if the test itself failed.
+post:
+  - 'echo "Post-step: Playwright run finished for $test"'
+  - ls -la reports/junit || true
+
+alwaysRunPostSteps: true
+
+report: true
+
+# HyperExecute's native Allure integration -- consolidated Allure report in
+# the job's "Report" tab. `location` must be the parent folder of
+# playwright.config.js's allure resultsDir ('reports/allure-results').
+partialReports:
+  location: reports
+  type: html
+  frameworkName: allure
+
+jobLabel: ["HYP", "Playwright", "Linux", "Autosplit"]

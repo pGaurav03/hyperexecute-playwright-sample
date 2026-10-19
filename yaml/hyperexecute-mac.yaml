@@ -1,0 +1,39 @@
+version: "0.1"
+runson: mac
+
+runtime:
+  language: node
+  version: 24
+
+autosplit: true
+concurrency: 2
+
+tunnel: false
+
+pre:
+  - rm -rf node_modules
+  - npm ci
+
+testDiscovery:
+  mode: static
+  type: raw
+  command: ls tests
+
+testRunnerCommand: npx playwright test tests/$test
+
+# mac VMs failed the "postrun" step with the Linux post commands
+# (echo "..." + `ls -la ... || true`), so keep this one plain.
+post:
+  - ls reports/junit
+
+alwaysRunPostSteps: true
+
+report: true
+
+partialReports:
+  location: reports
+  type: html
+  frameworkName: allure
+
+
+jobLabel: ["HYP", "Playwright", "macOS", "Autosplit"]

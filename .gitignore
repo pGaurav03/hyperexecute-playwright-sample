@@ -1,0 +1,16 @@
+node_modules/
+reports/
+allure-results/
+allure-report/
+logs/
+.hyperexecute/
+hyperexecute-cli.log
+.updatedhyperexecute.yaml
+hyperexecuteupdate
+.DS_Store
+test-results/
+playwright-report/
+hyperexecute
+hyperexecute.exe
+hyperexecute-code-*.zip
+yaml/mask-*.yaml
